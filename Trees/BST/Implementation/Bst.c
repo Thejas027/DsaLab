@@ -193,7 +193,6 @@ node *delete(node *root, int key)
   }
   return temp;
 }
-
 // function to count the number of nodes in a tree
 
 int count(node *root)
