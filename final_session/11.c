@@ -1,10 +1,10 @@
 /*
-develop a menu driven program to convert the infix expression to postfix and evulate the postfix expression
+develop a menu driven program to convert the infix exp to prefix and evulate the expression
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
+#include <math.h>
 
 #define MAX_SIZE 10
 struct Stack
@@ -17,7 +17,7 @@ void push(char value)
 {
     if (st.top == MAX_SIZE - 1)
     {
-        printf("stack is full\n");
+        printf("stack is full \n");
         return;
     }
     st.stack[++st.top] = value;
@@ -27,7 +27,7 @@ int pop()
 {
     if (st.top == -1)
     {
-        printf("stack if empty..\n");
+        printf("stack is empty\n");
         return -1;
     }
     return st.stack[st.top--];
@@ -49,17 +49,39 @@ int precedence(char symbol)
     return 0;
 }
 
-char *infixToPostfix(char *infix, char *postfix)
+void Rev(char *infix)
 {
-    // char *postfix[MAX_SIZE];
+    int len = strlen(infix);
+    int start = 0;
+    int end = len - 1;
+    while (start < end)
+    {
+        int temp = infix[start];
+        infix[start] = infix[end];
+        infix[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+char *infixToPrefix(char *infix, char *prefix)
+{
     int len = strlen(infix);
     int index = 0;
+    Rev(infix);
+    for (int i = 0; i < len; i++)
+    {
+        if (infix[i] == '( ')
+            infix[i] = ')';
+        else if (infix[i] == ')')
+            infix[i] = '(';
+    }
 
     for (int i = 0; i < len; i++)
     {
         if (isOperend(infix[i]))
         {
-            postfix[index++] = infix[i];
+            prefix[index++] = infix[i];
         }
         else if (infix[i] == '(')
         {
@@ -68,14 +90,14 @@ char *infixToPostfix(char *infix, char *postfix)
         else if (infix[i] == ')')
         {
             while (st.top != -1 && st.stack[st.top] != '(')
-                postfix[index++] = pop();
+                prefix[index++] = pop();
             pop();
         }
         else
         {
             while (st.top != -1 && precedence(st.stack[st.top]) > precedence(infix[i]))
             {
-                postfix[index++] = pop();
+                prefix[index++] = pop();
             }
             push(infix[i]);
         }
@@ -83,75 +105,71 @@ char *infixToPostfix(char *infix, char *postfix)
 
     while (st.top != -1)
     {
-        postfix[index++] = pop();
+        prefix[index++] = pop();
     }
+    prefix[index] = '\0';
+    Rev(prefix);
 
-    postfix[index] = '\0';
-
-    // char *result = postfix;
-    return postfix;
+    return prefix;
 }
 
-int eval(char *exp)
+int evalPrefix(char *expression)
 {
-    int len = strlen(exp);
     st.top = -1;
 
-    for (int i = 0; i < len; i++)
+    int len = strlen(expression);
+
+    for (int i = len - 1; i >= 0; i--)
     {
-        if (isOperend(exp[i]))
+        if (isOperend(expression[i]))
         {
-            push(exp[i] - '0');
+            push(expression[i] - '0');
         }
         else
         {
             int op2 = pop();
             int op1 = pop();
 
-            switch (exp[i])
+            switch (expression[i])
             {
             case '+':
                 push(op1 + op2);
                 break;
-
             case '-':
                 push(op1 - op2);
                 break;
-
             case '*':
                 push(op1 * op2);
                 break;
-
             case '/':
                 push(op1 / op2);
                 break;
-
-            case '^':
-                push(pow(op1, op2));
+            case '%':
+                push(op1 % op2);
                 break;
-
-            default:
-                printf("\ninvlid symbol in expression\n");
+            case '^':
+                push((int)pow(op1, op2));
                 break;
             }
         }
     }
+
     return pop();
 }
 
 int main()
 {
     char infix[MAX_SIZE];
-    char postfix[MAX_SIZE];
+    char prefix[MAX_SIZE];
     printf("enter the infix expression : ");
     scanf("%s", infix);
-    char *PostfixExp;
+    char *PrefixExp;
     int result;
     int choice;
     do
     {
         printf("\n\nMenu\n\n");
-        printf("1.to convert to postfix\n");
+        printf("1.to convert to prefix\n");
         printf("2.to evulate it \n"); // note convert the expression to postfix first to evalute
         printf("3.to exit\n");
         printf("enter your choice :");
@@ -160,21 +178,21 @@ int main()
         switch (choice)
         {
         case 1:
-            PostfixExp = infixToPostfix(infix, postfix);
-            printf("postfix exp : %s", PostfixExp);
+            PrefixExp = infixToPrefix(infix, prefix);
+            printf("postfix exp : %s", PrefixExp);
             break;
 
         case 2:
-            result = eval(PostfixExp);
+            result = evalPrefix(PrefixExp);
             printf("eval :  %d", result);
             break;
 
         case 3:
-            free(PostfixExp);
+            free(PrefixExp);
             printf("program exited...\n");
             break;
         default:
-            printf("invalid choice..");
+            printf("invalid choice..\n");
             break;
         }
     } while (choice != 3);
