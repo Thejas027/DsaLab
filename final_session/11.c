@@ -71,7 +71,7 @@ char *infixToPrefix(char *infix, char *prefix)
     Rev(infix);
     for (int i = 0; i < len; i++)
     {
-        if (infix[i] == '( ')
+        if (infix[i] == '(')
             infix[i] = ')';
         else if (infix[i] == ')')
             infix[i] = '(';
