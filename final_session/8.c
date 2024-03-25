@@ -85,7 +85,7 @@ void insertAtPos(struct CLL *list, int value, int pos)
 {
     struct Node *current = list->head->next;
     struct Node *newnode = createNode(value);
-    if (pos < 0 || pos > list->count)
+    if (pos < 0 || pos > list->count - 1)
     {
         printf("Invalid position to insert the value");
         return;
@@ -96,7 +96,7 @@ void insertAtPos(struct CLL *list, int value, int pos)
         insertAtEnd(list, value);
     else
     {
-        for (int i = 0; i < pos && current->next != list->head->next; i++)
+        for (int i = 0; i < pos - 1 && current->next != list->head->next; i++)
         {
 
             current = current->next;
