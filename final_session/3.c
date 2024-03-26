@@ -57,16 +57,11 @@ int deleteByPos(int *arr, int *n, int pos)
     {
         val = *(arr + pos);
         for (int i = pos; i < *n - 1; i++)
-        {
             *(arr + i) = *(arr + i + 1);
-        }
         (*n)--;
         return val;
     }
-    else
-    {
-        printf("invalid choice \n");
-    }
+    printf("invalid choice \n");
     return -1;
 }
 

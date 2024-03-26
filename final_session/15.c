@@ -168,14 +168,68 @@ struct Node *delete(struct Node *root, int key)
 int main()
 {
     struct Node *root = NULL;
-    root = treeCreate(root, 100);
-    treeCreate(root, 200);
-    treeCreate(root, 50);
-    // treeCreate(root, 10);
-    // treeCreate(root, 30000);
-    inOrder(root);
-    printf("\n\n");
-    delete (root, 30);
-    preorder(root);
+    int choice, key;
+
+    do
+    {
+        printf("\n----- Binary Search Tree Operations -----\n");
+        printf("1. Insert\n");
+        printf("2. Inorder Traversal\n");
+        printf("3. Preorder Traversal\n");
+        printf("4. Postorder Traversal\n");
+        printf("5. Search\n");
+        printf("6. Delete\n");
+        printf("7. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            printf("Enter value to insert: ");
+            scanf("%d", &key);
+            root = treeCreate(root, key);
+            break;
+
+        case 2:
+            printf("Inorder Traversal: ");
+            inOrder(root);
+            printf("\n");
+            break;
+
+        case 3:
+            printf("Preorder Traversal: ");
+            preorder(root);
+            printf("\n");
+            break;
+
+        case 4:
+            printf("Postorder Traversal: ");
+            postorder(root);
+            printf("\n");
+            break;
+
+        case 5:
+            printf("Enter key to search: ");
+            scanf("%d", &key);
+            searchKey(root, key);
+            break;
+
+        case 6:
+            printf("Enter key to delete: ");
+            scanf("%d", &key);
+            root = delete (root, key);
+            break;
+
+        case 7:
+            printf("Exiting program...\n");
+            break;
+
+        default:
+            printf("Invalid choice! Please enter a number between 1 and 7.\n");
+            break;
+        }
+    } while (choice != 7);
+
     return 0;
 }
