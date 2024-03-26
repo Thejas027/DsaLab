@@ -1,9 +1,7 @@
 /*
-14. Develop a menu driven program to implement Binary Search tree with the followingoperations.
-i) Construction ii) Traversals (Pre, In and Post Order) iii) Searching a node by key and displaying its
-information along with its parent if exists, otherwise a suitablemessage. iv)Counting all nodes. v)
-Finding height. vi Finding node with the Maximum key value and printing the node details along
-with the parent
+5. Develop a menu driven program to implement Binary Search tree with the followingoperations.
+i) Construction ii) Traversals (Pre, In and Post Order) iii) Searching a node by key and deleting if
+exists ( node to be deleted may be leaf or non- leaf with one child ortwo children)
 */
 
 #include <stdio.h>
@@ -110,43 +108,64 @@ void searchKey(struct Node *root, int key)
     printf("Key not found\n");
 }
 
-// function to count the number of nodes
-
-int count(struct Node *root)
-{
-    if (root)
-        return count(root->lchild) + count(root->rchild) + 1;
-    return 0;
-}
-
-// function to find the max ele and print its parent
-
-void maximum(struct Node *root)
+struct Node *inorderPre(struct Node *root)
 {
     struct Node *temp = root;
-    struct Node *parent = NULL;
-
-    while (temp->rchild != NULL)
+    while (temp && temp->rchild != NULL)
     {
-        parent = temp;
         temp = temp->rchild;
     }
-    printf("\nmax ele : %d", temp->data);
-    printf("\nparent is : %d", parent->data);
+    return temp;
 }
+
+struct Node *inorderSuc(struct Node *root)
+{
+    struct Node *temp = root;
+    while (temp && temp->lchild != NULL)
+    {
+        temp = temp->lchild;
+    }
+    return temp;
+}
+
+struct Node *delete(struct Node *root, int key)
+{
+    struct Node *temp = root;
+    struct Node *current;
+
+    if (temp == NULL)
+        return NULL;
+    if (temp->lchild == NULL && temp->rchild == NULL)
+    {
+        if (temp == root)
+            root = NULL;
+        free(temp);
+        return NULL;
+    }
+    if (key < root->data)
+        root->lchild = delete (root->lchild, key);
+    else if (key > root->data)
+        root->rchild = delete (root->rchild, key);
+    else
+    {
+        if (height(root->lchild) > height(root->rchild))
+        {
+            current = inorderPre(root->lchild);
+            temp->data = current->data;
+            temp->lchild = delete (root->lchild, key);
+        }
+        else
+        {
+            current = inorderSuc(root->rchild);
+            temp->data = current->data;
+            temp->rchild = delete (root->rchild, key);
+        }
+    }
+    return temp;
+}
+
+// develop a menu driven program as required
 int main()
 {
-    struct Node *root = NULL;
-    root = treeCreate(root, 100);
-    treeCreate(root, 200);
-    treeCreate(root, 50);
-    treeCreate(root, 10);
-    treeCreate(root, 30000);
-    inOrder(root);
-
-    printf("\nHeight : %d\n", height(root));
-    searchKey(root, 10);
-    printf("\n cunt : %d \n", count(root));
-    maximum(root);
     return 0;
 }
