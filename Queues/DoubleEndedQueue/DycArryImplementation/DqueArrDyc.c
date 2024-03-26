@@ -71,24 +71,23 @@ void insertAtFront(DQ *dq, int value)
 
 int deleteAtFront(DQ *dq)
 {
- if (isEmpty(dq))
- {
+  if (isEmpty(dq))
+  {
     printf("Cannot delete the element from front end.\n");
     return -1;
- }
- int x = dq->arr[dq->front]; 
- dq->front++; 
- dq->size--;
- if (dq->size == 0)
- {
-    dq->front = dq->rear = -1; 
- }
- else if (dq->front > dq->rear) 
- {
-    dq->front = 0; 
- }
+  }
+  int x = dq->arr[++dq->front];
+  dq->size--;
+  if (dq->size == 0)
+  {
+    dq->front = dq->rear = -1;
+  }
+  else if (dq->front > dq->rear)
+  {
+    dq->front = 0;
+  }
 
- return x;
+  return x;
 }
 
 int deleteAtRear(DQ *dq)
