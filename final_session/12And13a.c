@@ -80,7 +80,7 @@ int peek(struct Cqueue *cq)
     return cq->arr[cq->front];
 }
 
-void dispaly(struct Cqueue *cq)
+void display(struct Cqueue *cq)
 {
     if (isEmpty(cq))
     {
@@ -103,6 +103,12 @@ int main()
 
     struct Cqueue *cq = (struct Cqueue *)malloc(sizeof(struct Cqueue));
     initQueue(cq, MAX_CAPACITY);
+    enqueue(cq, 10);
+    enqueue(cq, 20);
+    enqueue(cq, 30);
+    display(cq);
+    printf("\n\nDequeued element : %d \n \n", dequeue(cq));
+    display(cq);
 
     // develop a menu driven here as required
     return 0;

@@ -73,7 +73,7 @@ void deleteByKey(int *arr, int *n, int key)
     if (pos != -1)
         deleteByPos(arr, n, pos);
     else
-        printf("Invalid choice..");
+        printf("Invalid key..");
 }
 
 int searchByPos(int *arr, int *n, int pos)
