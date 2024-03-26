@@ -167,5 +167,15 @@ struct Node *delete(struct Node *root, int key)
 // develop a menu driven program as required
 int main()
 {
+    struct Node *root = NULL;
+    root = treeCreate(root, 100);
+    treeCreate(root, 200);
+    treeCreate(root, 50);
+    // treeCreate(root, 10);
+    // treeCreate(root, 30000);
+    inOrder(root);
+    printf("\n\n");
+    delete (root, 30);
+    preorder(root);
     return 0;
 }
