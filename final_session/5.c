@@ -72,7 +72,6 @@ void insertAtEnd(struct CDLL *list, int value)
 {
     struct Node *newnode = createNode(value);
     struct Node *current = list->head->next;
-    struct Node *last = current->prev;
     if (current == NULL)
     {
         list->head->next = newnode;
@@ -80,9 +79,9 @@ void insertAtEnd(struct CDLL *list, int value)
         return;
     }
     newnode->next = current;
-    newnode->prev = last;
-    current->prev = last;
-    last->next = newnode;
+    newnode->prev = current->prev;
+    current->prev->next = newnode;
+    current->prev = newnode;
     list->count++;
 }
 
