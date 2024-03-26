@@ -60,6 +60,7 @@ void insertAtStart(struct CDLL *list, int value)
         newnode->prev = current->prev;
         current->prev->next = newnode;
         current->prev = newnode;
+        list->head->next = newnode;
     }
     list->count++;
 }
@@ -250,9 +251,8 @@ int main()
 {
     struct CDLL *list = (struct CDLL *)malloc(sizeof(struct CDLL));
     createList(list);
-    insertAtEnd(list, 90);
-    insertAtEnd(list, 20);
-    insertInOrder(list, 55);
+    insertAtStart(list, 10);
+    insertAtStart(list, 5);
     display(list);
     return 0;
 }

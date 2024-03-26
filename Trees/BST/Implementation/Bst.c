@@ -251,8 +251,10 @@ int main()
   treeCreate(root, 30);
   treeCreate(root, 70);
   treeCreate(root, 50);
-  treeCreate(root, 100);
+  treeCreate(root, 10);
 
-  printf("number of leaf nodes : %d", countLeafNodeDeg1(root));
+  // printf("number of leaf nodes : %d", countLeafNodeDeg1(root));
+  delete (root, 100);
+  postOrder(root);
   return 0;
 }
