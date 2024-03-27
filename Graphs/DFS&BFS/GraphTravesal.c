@@ -1,3 +1,7 @@
+/*
+program contains the travesal techniques of graphs (BFS and DFS) where a queue data structure is used in bfs travesal
+*/
+
 #include <stdio.h>
 #include "Queue.h" // queue header file included to access the enqueue and dequeue opereations
 
